@@ -1,0 +1,37 @@
+<!--index.wxml-->
+<view class="page">
+  <view class="container">
+    <l-textarea auto-height="{{true}}" placeholder="描述你想画什么,包括画面里面都有什么内容。" model:value="{{prompt}}"></l-textarea>
+
+    <view class="h1">
+      风格选择：
+    </view>
+
+    <l-style-navigation style-idx="{{styleIdx}}" styles="{{styles}}" bind:tapidx="handleStyleTap"></l-style-navigation>
+
+    <view class="h1">
+      风格包含：
+    </view>
+
+    <l-grid l-class="grid" row-num="4" show-col-border="{{flase}}">
+      <l-grid-item l-grid-item="grid-item" wx:for="{{grids2}}" wx:key="index" key="{{index}}" slot="{{index}}" data-idx="{{index}}">
+        <view class="item {{styleItemIdx === index ? 'select' :''}}">
+          <image class="image" mode="widthFix" src="http://localhost:7100/public/sd_block/20230928/1695883013415.png"></image>
+          <view class="text">{{item.name}}</view>
+        </view>
+      </l-grid-item>
+    </l-grid>
+
+
+    <view class="h1">
+      画面比例：
+    </view>
+
+    <l-grid l-class="grid gridhover" row-num="3" show-col-border="{{flase}}">
+      <l-grid-item l-grid-item="grid-item item item-huahu {{styleItemIdx === index ? 'select' :''}}" wx:for="{{huamian}}" wx:key="index" key="{{index}}" slot="{{index}}" data-idx="{{index}}">
+        <view class="text">{{item.name}}</view>
+      </l-grid-item>
+    </l-grid>
+
+  </view>
+</view>

@@ -1,0 +1,12 @@
+/**app.wxss**/
+
+.page{
+  height: 100vh;
+  padding: 130rpx 0;
+}
+
+.container {
+  padding: 0 25rpx;
+}
+
+

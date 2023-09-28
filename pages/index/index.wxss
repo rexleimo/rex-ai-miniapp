@@ -1,0 +1,52 @@
+/**index.wxss**/
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.h1 {
+  margin: 25rpx 0px;
+  font-size: 35rpx;
+  font-weight: 600;
+}
+
+.gridhover {
+  display: grid;
+  grid-template-columns: repeat(3, 30%);
+  gap: 10rpx;
+}
+
+.grid .image {
+  width: 120rpx;
+  margin-bottom: 10rpx;
+  border-radius: 4rpx;
+}
+
+.grid .text {
+  font-size: 25rpx;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15rpx;
+  border: 1rpx solid #e8e8e8;
+  border-radius: 4rpx;
+  margin-right: 25rpx;
+}
+
+.select {
+  border-color: black;
+}
+
+.grid-item {
+  padding: 0 !important;
+}
+
+.item-huahu {
+  width: 100%;
+  padding: 25rpx 0rpx !important;
+}
