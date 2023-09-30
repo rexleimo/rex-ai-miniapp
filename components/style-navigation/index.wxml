@@ -1,8 +1,8 @@
 <scroll-view scroll-x="{{true}}">
   <view class="style-list">
     <view wx:for="{{styles}}" wx:key="index" class="style-list_item {{index === styleIdx ? 'select':''}}" bind:tap="onTap" data-idx="{{index}}">
-      <image class="image" mode="widthFix" src="http://localhost:7100/public/sd_block/20230928/1695883013415.png"></image>
-      <view class="text">好的</view>
+      <!-- <image class="image" mode="widthFix" src="{{item.conver}}"></image> -->
+      <view class="text">{{item.name}}</view>
     </view>
   </view>
 </scroll-view>

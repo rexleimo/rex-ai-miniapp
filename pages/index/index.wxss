@@ -1,52 +1,76 @@
 /**index.wxss**/
 page {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .h1 {
-  margin: 25rpx 0px;
-  font-size: 35rpx;
-  font-weight: 600;
+    margin: 25rpx 0px;
+    font-size: 35rpx;
+    font-weight: 600;
 }
 
-.gridhover {
-  display: grid;
-  grid-template-columns: repeat(3, 30%);
-  gap: 10rpx;
-}
+
 
 .grid .image {
-  width: 120rpx;
-  margin-bottom: 10rpx;
-  border-radius: 4rpx;
+    width: 120rpx;
+    margin-bottom: 10rpx;
+    border-radius: 4rpx;
 }
 
 .grid .text {
-  font-size: 25rpx;
+    font-size: 25rpx;
 }
 
 .item {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 15rpx;
-  border: 1rpx solid #e8e8e8;
-  border-radius: 4rpx;
-  margin-right: 25rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15rpx;
+    border: 1rpx solid #e8e8e8;
+    border-radius: 4rpx;
+    margin-right: 25rpx;
 }
 
 .select {
-  border-color: black;
+    border-color: black;
 }
 
+
 .grid-item {
-  padding: 0 !important;
+    padding: 0 !important;
+}
+
+.gridhover {
+    display: grid !important;
+    gap: 15rpx;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .item-huahu {
-  width: 100%;
-  padding: 25rpx 0rpx !important;
+    width: 100%;
+    padding: 40rpx 0rpx !important;
+    margin-right: 0rpx;
+}
+
+.container-huahu {
+    border-radius: 4rpx;
+    background-color: #e8e8e8;
+    padding: 25rpx;
+}
+
+.render-button {
+    margin-top: 25rpx;
+    width: 100%;
+}
+
+.progress {
+    margin-top: 150rpx;
+}
+
+.home-page {
+    height: 100vh;
+    padding: 0rpx 0rpx 150rpx 0rpx;
 }
