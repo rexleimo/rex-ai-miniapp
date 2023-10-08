@@ -4,8 +4,8 @@
 <view class="{{isRendererMode?'home-page':'page'}}">
     <scroll-view style="height:80vh;" scroll-y="{{true}}">
         <view class="container">
-            <view wx:for="{{respImages}}" wx:key="index">
-                <image class="image" mode="widthFix" src="http://127.0.0.1:7100/{{item}}"></image>
+            <view style="display: flex;justify-content: center;align-items: center;">
+                <image wx:for="{{respImages}}" wx:key="index" style="max-height: 500rpx;" mode="heightFix" src="http://127.0.0.1:7100/{{item}}"></image>
             </view>
         </view>
 
