@@ -2,67 +2,67 @@
 <l-progress wx:if="{{isRendererMode}}" l-class="progress" percent="{{progress}}" show-info="{{true}}" stroke-width='10' border-radius='4'></l-progress>
 
 <view class="{{isRendererMode?'home-page':'page'}}">
-    <scroll-view style="height:80vh;" scroll-y="{{true}}">
-        <view class="container">
-            <view style="display: flex;justify-content: center;align-items: center;">
-                <image wx:for="{{respImages}}" wx:key="index" style="max-height: 500rpx;" mode="heightFix" src="http://127.0.0.1:7100/{{item}}"></image>
-            </view>
+  <scroll-view style="height:80vh;" scroll-y="{{true}}">
+    <view class="container">
+      <view style="display: flex;justify-content: center;align-items: center;">
+        <image wx:for="{{respImages}}" wx:key="index" style="max-height: 500rpx;" mode="heightFix" src="http://127.0.0.1:7100/{{item}}"></image>
+      </view>
+    </view>
+
+    <view class="container">
+
+      <view class="h1">
+        描述词
+      </view>
+      <l-textarea maxlength="-1" indicator="{{false}}" auto-height="{{true}}" placeholder="描述你想画什么,包括画面里面都有什么内容。" model:value="{{prompt}}">
+      </l-textarea>
+
+      <view class="h1">
+        不出现的内容
+      </view>
+      <l-textarea maxlength="-1" indicator="{{false}}" auto-height="{{true}}" placeholder="描述你想什么内容不出现画面里面。" model:value="{{negative_prompt}}"></l-textarea>
+
+      <view class="h1">
+        设计行业：
+      </view>
+
+      <scroll-view scroll-x="{{true}}">
+        <l-button size="mini" wx:for="{{types}}" wx:key="index" plain="{{index === typeIdx ? false: true}}" data-cloumname="typeIdx" bind:tap="handleChangeTap">{{item.name}}</l-button>
+      </scroll-view>
+
+      <view class="h1">
+        目标：
+      </view>
+
+      <scroll-view scroll-x="{{true}}">
+        <l-button size="mini" wx:for="{{styles}}" wx:key="index" plain="{{index === styleIdx ? false: true}}" data-idx="{{index}}" data-cloumname="styleIdx" bind:tap="handleChangeTap">{{item.name}}</l-button>
+      </scroll-view>
+
+      <view wx:for="{{attrs}}" wx:key="index">
+        <view class="h1">
+          {{item.name}}:
         </view>
+        <scroll-view scroll-x="{{true}}">
+          <l-button size="mini" wx:for="{{item.values}}" wx:key="index" wx:for-item="vitem" plain="{{index === attrIdx[item.name] ? false: true}}" data-idx="{{index}}" data-cloumname="{{item.name}}" bind:tap="handleChangeAttrTap">{{vitem.name}}
+          </l-button>
+        </scroll-view>
+      </view>
 
-        <view class="container">
-
-            <view class="h1">
-                描述词
-            </view>
-            <l-textarea maxlength="-1" indicator="{{false}}" auto-height="{{true}}" placeholder="描述你想画什么,包括画面里面都有什么内容。" model:value="{{prompt}}">
-            </l-textarea>
-
-            <view class="h1">
-                不出现的内容
-            </view>
-            <l-textarea maxlength="-1" indicator="{{false}}" auto-height="{{true}}" placeholder="描述你想什么内容不出现画面里面。" model:value="{{negative_prompt}}"></l-textarea>
-
-            <view class="h1">
-                设计行业：
-            </view>
-
-            <scroll-view scroll-x="{{true}}">
-                <l-button size="mini" wx:for="{{types}}" wx:key="index" plain="{{index === typeIdx ? false: true}}" data-cloumname="typeIdx" bind:tap="handleChangeTap">{{item.name}}</l-button>
-            </scroll-view>
-
-            <view class="h1">
-                目标：
-            </view>
-
-            <scroll-view scroll-x="{{true}}">
-                <l-button size="mini" wx:for="{{styles}}" wx:key="index" plain="{{index === styleIdx ? false: true}}" data-idx="{{index}}" data-cloumname="styleIdx" bind:tap="handleChangeTap">{{item.name}}</l-button>
-            </scroll-view>
-
-            <view wx:for="{{attrs}}" wx:key="index">
-                <view class="h1">
-                    {{item.name}}:
-                </view>
-                <scroll-view scroll-x="{{true}}">
-                    <l-button size="mini" wx:for="{{item.values}}" wx:key="index" wx:for-item="vitem" plain="{{index === attrIdx[item.name] ? false: true}}" data-idx="{{index}}" data-cloumname="{{item.name}}" bind:tap="handleChangeAttrTap">{{vitem.name}}
-                    </l-button>
-                </scroll-view>
-            </view>
-
-
-            <view class="h1">
-                画面比例：
-            </view>
-
-            <l-grid l-class="grid gridhover" row-num="3" show-col-border="{{flase}}">
-                <l-grid-item l-grid-item="grid-item item item-huahu {{huamianIdx === index ? 'select' :''}}" wx:for="{{huamian}}" wx:key="index" data-cloumname="huamianIdx" key="{{index}}" slot="{{index}}" data-idx="{{index}}" bind:tap="handleChangeTap">
-                    <view class="container-huahu">
-                        <view class="text">{{item.name}}</view>
-                    </view>
-                </l-grid-item>
-            </l-grid>
-
-            <l-button loading="{{isRendererMode}}" shape="circle" l-class="render-button" bind:tap="handleRenderImage">立即渲染</l-button>
-
+      <view wx:if="{{styles[styleIdx].is_size == false}}">
+        <view class="h1">
+          画面比例：
         </view>
-    </scroll-view>
+        <l-grid l-class="grid gridhover" row-num="3" show-col-border="{{flase}}">
+          <l-grid-item l-grid-item="grid-item item item-huahu {{huamianIdx === index ? 'select' :''}}" wx:for="{{huamian}}" wx:key="index" data-cloumname="huamianIdx" key="{{index}}" slot="{{index}}" data-idx="{{index}}" bind:tap="handleChangeTap">
+            <view class="container-huahu">
+              <view class="text">{{item.name}}</view>
+            </view>
+          </l-grid-item>
+        </l-grid>
+      </view>
+
+      <l-button loading="{{isRendererMode}}" shape="circle" l-class="render-button" bind:tap="handleRenderImage">立即渲染</l-button>
+
+    </view>
+  </scroll-view>
 </view>
