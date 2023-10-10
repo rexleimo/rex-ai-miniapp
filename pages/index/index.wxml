@@ -61,7 +61,7 @@
         </l-grid>
       </view>
 
-      <l-button loading="{{isRendererMode}}" shape="circle" l-class="render-button" bind:tap="handleRenderImage">立即渲染</l-button>
+      <l-button loading="{{isRendererMode}}" shape="circle" bind:tap="handleRenderImage">立即渲染</l-button>
 
     </view>
   </scroll-view>

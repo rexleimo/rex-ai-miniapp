@@ -5,6 +5,7 @@
         "l-grid": "/miniprogram_npm/lin-ui/grid",
         "l-grid-item": "/miniprogram_npm/lin-ui/grid-item",
         "l-button": "/miniprogram_npm/lin-ui/button",
-        "l-progress": "/miniprogram_npm/lin-ui/progress"
+        "l-progress": "/miniprogram_npm/lin-ui/progress",
+        "tab-bar":"/components/tab-bar"
     }
 }

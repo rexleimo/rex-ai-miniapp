@@ -1,0 +1,43 @@
+/* pages/task/index.wxss */
+
+.album {
+    display: flex;
+    flex-direction: row;
+}
+
+.avatar {
+    margin-left: 0rpx;
+}
+
+.right {
+    margin-left: 0rpx;
+}
+
+.name {
+    color: rgb(91, 108, 160);
+    font-weight: 500;
+    font-size: 36rpx;
+}
+
+.content {
+    margin-top: 7rpx;
+    margin-right: 10rpx;
+    color: #333;
+    font-weight: 400;
+    margin-bottom: 15rpx;
+    font-size: 30rpx;
+}
+
+.line {
+    height: 1px;
+    border-top: solid Silver 1px;
+    margin-bottom: 40rpx;
+    margin-top: 30rpx;
+}
+
+.album-thumb{
+    width: 260rpx;
+    height: 260rpx;
+    border: 1rpx solid rgb(91, 108, 160);
+    border-radius: 4rpx;
+}

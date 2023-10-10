@@ -1,0 +1,20 @@
+<!--pages/task/index.wxml-->
+<view class="page">
+    <scroll-view style="height:80vh;" scroll-y="{{true}}">
+        <view class="container">
+            <view wx:for="{{tasks}}" wx:key="index">
+                <view class="album">
+                    <l-avatar class="avatar" size='80' shape="square" src="" />
+                    <view class="right">
+                        <view class="name">任务ID: {{item.id}}</view>
+                        <view class='content'>
+                            create time: {{item.create_at}}
+                        </view>
+                        <image class="album-thumb" wx:for="{{item.images}}" wx:key="imgIdx"  wx:for-item="imgItem" mode="aspectFit" src="{{imgItem}}"></image>
+                    </view>
+                </view>
+                <view class="line"></view>
+            </view>
+        </view>
+    </scroll-view>
+</view>
