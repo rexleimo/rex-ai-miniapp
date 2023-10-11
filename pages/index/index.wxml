@@ -2,7 +2,7 @@
 <l-progress wx:if="{{isRendererMode}}" l-class="progress" percent="{{progress}}" show-info="{{true}}" stroke-width='10' border-radius='4'></l-progress>
 
 <view class="{{isRendererMode?'home-page':'page'}}">
-  <scroll-view style="height:80vh;" scroll-y="{{true}}">
+  <scroll-view style="height:86vh;" scroll-y="{{true}}">
     <view class="container">
       <view style="display: flex;justify-content: center;align-items: center;">
         <image wx:for="{{respImages}}" wx:key="index" style="max-height: 500rpx;" mode="heightFix" src="http://127.0.0.1:7100/{{item}}"></image>
@@ -42,10 +42,10 @@
         <view class="h1">
           {{item.name}}:
         </view>
-        <scroll-view scroll-x="{{true}}">
+        <view>
           <l-button size="mini" wx:for="{{item.values}}" wx:key="index" wx:for-item="vitem" plain="{{index === attrIdx[item.name] ? false: true}}" data-idx="{{index}}" data-cloumname="{{item.name}}" bind:tap="handleChangeAttrTap">{{vitem.name}}
           </l-button>
-        </scroll-view>
+        </view>
       </view>
 
       <view wx:if="{{styles[styleIdx].is_size == false}}">
@@ -61,7 +61,7 @@
         </l-grid>
       </view>
 
-      <l-button loading="{{isRendererMode}}" shape="circle" bind:tap="handleRenderImage">立即渲染</l-button>
+      <l-button l-class="render-button" size="long" loading="{{isRendererMode}}" shape="circle" bind:tap="handleRenderImage">立即渲染</l-button>
 
     </view>
   </scroll-view>

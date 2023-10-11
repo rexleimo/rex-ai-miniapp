@@ -67,6 +67,7 @@ Page({
         const {
           code
         } = res;
+
         wx.request({
           url: `${APIURI}miniapp/open_id?code=${code}`,
           success: res => {
@@ -182,7 +183,7 @@ Page({
     let {
       prompt
     } = this.data;
-    if (isRendererMode) return;
+    // if (isRendererMode) return;
 
     const getTypes = () => {
       const {
@@ -212,7 +213,6 @@ Page({
         negative_prompt,
         ...getWidthAndHeight(huamianIdx)
       },
-      timeout: 60 * 1000 * 3,
       header: {
         "Authorization": `Bearer ${wx.getStorageSync('token')}`
       },
@@ -221,7 +221,6 @@ Page({
           data,
         } = resp;
         const {
-          images,
           error
         } = data;
 
@@ -231,21 +230,16 @@ Page({
             icon: "error",
             duration: 2000
           })
-          return
+        } else {
+          wx.showToast({
+            title: '创建任务成功，请到任务列表查询进度',
+            icon: "success",
+            duration: 2000
+          })
         }
-
-        than.setData({
-          respImages: images
-        })
 
       },
       fail: function () {},
     })
-    than.setData({
-      isRendererMode: true
-    })
-    setTimeout(() => {
-      than.getRendererProgress()
-    }, 500);
   }
 })

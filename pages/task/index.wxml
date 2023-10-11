@@ -1,20 +1,17 @@
 <!--pages/task/index.wxml-->
 <view class="page">
-    <scroll-view style="height:80vh;" scroll-y="{{true}}">
-        <view class="container">
-            <view wx:for="{{tasks}}" wx:key="index">
-                <view class="album">
-                    <l-avatar class="avatar" size='80' shape="square" src="" />
-                    <view class="right">
-                        <view class="name">任务ID: {{item.id}}</view>
-                        <view class='content'>
-                            create time: {{item.create_at}}
-                        </view>
-                        <image class="album-thumb" wx:for="{{item.images}}" wx:key="imgIdx"  wx:for-item="imgItem" mode="aspectFit" src="{{imgItem}}"></image>
-                    </view>
-                </view>
-                <view class="line"></view>
-            </view>
+  <scroll-view style="height:86vh;" scroll-y="{{true}}">
+    <view class="container gird">
+      <view class="card" wx:for="{{tasks}}" wx:key="index">
+        <image class="cover" mode="aspectFit" src="{{item.images[0]}}"></image>
+        <view class="options">
+          <l-button size="mini" plain="{{true}}" data-id="{{item.id}}" bind:tap="handleSaveImage">下载图片</l-button>
         </view>
-    </scroll-view>
+      </view>
+    </view>
+
+    <view wx:if="{{!noMor}}" class="moreContainer">
+      <l-button size="mini" shape="circle" plain="{{true}}" bind:tap="handleGetMoreList">加载更多</l-button>
+    </view>
+  </scroll-view>
 </view>

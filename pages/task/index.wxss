@@ -1,43 +1,36 @@
 /* pages/task/index.wxss */
 
-.album {
-    display: flex;
-    flex-direction: row;
+.gird {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  grid-column-gap: 10rpx;
 }
 
-.avatar {
-    margin-left: 0rpx;
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 4rpx;
+  border: 1rpx #e8e8ee solid;
+  padding: 10rpx;
 }
 
-.right {
-    margin-left: 0rpx;
+.card .cover {
+  width: auto;
+  height: 260rpx;
+  border-bottom: 1rpx solid #e8e8ee;
+  padding-bottom: 10rpx;
 }
 
-.name {
-    color: rgb(91, 108, 160);
-    font-weight: 500;
-    font-size: 36rpx;
+.card .options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10rpx 0;
 }
 
-.content {
-    margin-top: 7rpx;
-    margin-right: 10rpx;
-    color: #333;
-    font-weight: 400;
-    margin-bottom: 15rpx;
-    font-size: 30rpx;
-}
-
-.line {
-    height: 1px;
-    border-top: solid Silver 1px;
-    margin-bottom: 40rpx;
-    margin-top: 30rpx;
-}
-
-.album-thumb{
-    width: 260rpx;
-    height: 260rpx;
-    border: 1rpx solid rgb(91, 108, 160);
-    border-radius: 4rpx;
+.moreContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20rpx;
 }
