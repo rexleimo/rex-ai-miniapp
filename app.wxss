@@ -1,5 +1,4 @@
 /**app.wxss**/
-
 .page{
   height: 100vh;
   padding: 150rpx 0;

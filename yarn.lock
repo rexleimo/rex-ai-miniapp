@@ -11,3 +11,8 @@
   "integrity" "sha512-RFRq1D+jCkhFzVCe/Y4C/NnWEK21ZiY961/HJR3mHmHmdq5IkrNBt/39WsUuWcDPty48WaY/3IipOPBBD+7ttw=="
   "resolved" "https://mirrors.cloud.tencent.com/npm/lin-ui/-/lin-ui-0.9.13.tgz"
   "version" "0.9.13"
+
+"wux-weapp@^3.10.1":
+  "integrity" "sha512-k+SQgKUW+NoUgULPjAaXb4KS7lFD+cohEDBCkUr50TsLfoXMMGHz8jZKXYLqWuTsM47nFfqt/pRk8cU/8B3e2g=="
+  "resolved" "https://mirrors.cloud.tencent.com/npm/wux-weapp/-/wux-weapp-3.10.1.tgz"
+  "version" "3.10.1"

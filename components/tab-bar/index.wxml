@@ -1,2 +1,0 @@
-<!--components/tab-bar/index.wxml-->
-<l-tab-bar list="{{list}}" />

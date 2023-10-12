@@ -3,8 +3,9 @@
   "projectname": "ai-miniapp",
   "setting": {
     "compileHotReLoad": true,
-    "skylineRenderEnable": false,
-    "urlCheck": false
+    "skylineRenderEnable": true,
+    "urlCheck": false,
+    "bigPackageSizeSupport": false
   },
-  "libVersion": "3.1.2"
+  "libVersion": "3.0.0"
 }

@@ -3,7 +3,7 @@
   <scroll-view style="height:86vh;" scroll-y="{{true}}">
     <view class="container gird">
       <view class="card" wx:for="{{tasks}}" wx:key="index">
-        <image class="cover" mode="aspectFit" src="{{item.images[0]}}"></image>
+        <image data-uri="{{item.images[0]}}" bind:tap="handleShowMaskZoomIn" class="cover" mode="aspectFit" src="{{item.images[0]}}"></image>
         <view class="options">
           <l-button size="mini" plain="{{true}}" data-id="{{item.id}}" bind:tap="handleSaveImage">下载图片</l-button>
         </view>
@@ -15,3 +15,10 @@
     </view>
   </scroll-view>
 </view>
+
+<l-mask show="{{showMask}}" opacity="0.7" center="{{true}}">
+  <view class="flex-center flex-column">
+    <image mode="widthFix" src="{{maskUri}}" />
+    <l-button l-class="close-btn" size="mini" bind:tap="handleCloseMask">关闭</l-button>
+  </view>
+</l-mask>

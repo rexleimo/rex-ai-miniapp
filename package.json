@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "dayjs": "^1.11.10",
-    "lin-ui": "^0.9.13"
+    "lin-ui": "^0.9.13",
+    "wux-weapp": "^3.10.1"
   }
 }

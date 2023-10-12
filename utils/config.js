@@ -1,3 +1,3 @@
 module.exports = {
-    APIURI:"http://localhost:7100/"
+    APIURI:"http://g2ghv8.natappfree.cc/"
 }

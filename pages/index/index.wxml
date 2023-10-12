@@ -1,14 +1,6 @@
 <!--index.wxml-->
-<l-progress wx:if="{{isRendererMode}}" l-class="progress" percent="{{progress}}" show-info="{{true}}" stroke-width='10' border-radius='4'></l-progress>
-
-<view class="{{isRendererMode?'home-page':'page'}}">
-  <scroll-view style="height:86vh;" scroll-y="{{true}}">
-    <view class="container">
-      <view style="display: flex;justify-content: center;align-items: center;">
-        <image wx:for="{{respImages}}" wx:key="index" style="max-height: 500rpx;" mode="heightFix" src="http://127.0.0.1:7100/{{item}}"></image>
-      </view>
-    </view>
-
+<view class="page">
+  <scroll-view type="list" style="height:86vh;" scroll-y="{{true}}">
     <view class="container">
       <view class="h1">
         描述词
@@ -22,24 +14,29 @@
       <view class="h1">
         设计行业：
       </view>
-      <scroll-view scroll-x="{{true}}">
-        <l-button size="mini" wx:for="{{types}}" wx:key="index" plain="{{index === typeIdx ? false: true}}" data-cloumname="typeIdx" data-idx="{{index}}" bind:tap="handleChangeTap">{{item.name}}</l-button>
-      </scroll-view>
+      <view>
+        <wux-button wx:for="{{types}}" wx:key="index" type="positive" size="small" outline="{{index === typeIdx ? false: true}}" data-cloumname="typeIdx" data-idx="{{index}}" bind:tap="handleChangeTap">
+          {{item.name}}
+        </wux-button>
+      </view>
       <view class="h1">
         目标：
       </view>
-      <scroll-view scroll-x="{{true}}">
-        <l-button size="mini" wx:for="{{styles}}" wx:key="index" plain="{{index === styleIdx ? false: true}}" data-idx="{{index}}" data-cloumname="styleIdx" bind:tap="handleChangeTap">{{item.name}}</l-button>
-      </scroll-view>
+      <view>
+        <wux-button wx:for="{{styles}}" wx:key="index" size="small" type="positive" outline="{{index === styleIdx ? false: true}}" data-idx="{{index}}" data-cloumname="styleIdx" bind:tap="handleChangeTap">
+          {{item.name}}
+        </wux-button>
+      </view>
       <view wx:for="{{attrs}}" wx:key="index">
         <view class="h1">
           {{item.name}}:
         </view>
-        <view>
-          <l-button size="mini" wx:for="{{item.values}}" wx:key="index" wx:for-item="vitem" plain="{{index === attrIdx[item.name] ? false: true}}" data-idx="{{index}}" data-cloumname="{{item.name}}" bind:tap="handleChangeAttrTap">{{vitem.name}}
-          </l-button>
+        <view style="display: flex;">
+          <wux-button size="small" wx:for="{{item.values}}" wx:key="index" wx:for-item="vitem" type="positive" outline="{{index === attrIdx[item.name] ? false: true}}" data-idx="{{index}}" data-cloumname="{{item.name}}" bind:tap="handleChangeAttrTap">{{vitem.name}}
+          </wux-button>
         </view>
       </view>
+
       <view wx:if="{{styles[styleIdx].is_size == false}}">
         <view class="h1">
           画面比例：
@@ -53,7 +50,9 @@
         </l-grid>
       </view>
 
-      <l-button l-class="render-button" size="long" loading="{{isRendererMode}}" shape="circle" bind:tap="handleRenderImage">立即渲染</l-button>
+      <wux-button block type="positive" loading="{{isRendererMode}}" bind:tap="handleRenderImage">
+        立即渲染
+      </wux-button>
 
     </view>
   </scroll-view>

@@ -13,7 +13,9 @@ Page({
     tasks: [],
     pageSize: 10,
     pageNum: 1,
-    noMor: false
+    noMor: false,
+    showMask: false,
+    maskUri: ""
   },
 
   /**
@@ -81,55 +83,7 @@ Page({
   onShareAppMessage() {
 
   },
-  handleSaveImage(e) {
-    const {
-      id
-    } = e.currentTarget.dataset
-    const saveFileToPhotosAlbum = () => {
-      const info = this.data.tasks.find(v => v.id === id);
-      if (info) {
-        wx.downloadFile({
-          url: info.images[0],
-          success: (resp) => {
-            wx.saveImageToPhotosAlbum({
-              filePath: resp.tempFilePath,
-              success: () => {
-                wx.showToast({
-                  title: '保存成功',
-                  icon: 'success',
-                  duration: 2000
-                })
-              }
-            })
-          }
-        })
-      }
-    }
-    wx.getSetting({
-      success: (setting) => {
-        if (!setting.authSetting['scope.writePhotosAlbum']) {
-          wx.authorize({
-            scope: 'scope.writePhotosAlbum',
-            success: () => {
-              saveFileToPhotosAlbum()
-            }
-          })
-        } else {
-          saveFileToPhotosAlbum()
-        }
-      }
-    })
-  },
-  handleGetMoreList() {
-    if (this.data.pageNum * this.data.pageSize === this.data.tasks.length) {
-      this.setData({
-        pageNum: this.data.pageNum + 1
-      });
-      setTimeout(() => {
-        this.getFetchList();
-      }, 0);
-    }
-  },
+
   getFetchList() {
     wx.request({
       url: `${APIURI}task?pageSize=${this.data.pageSize}&page=${this.data.pageNum}`,
@@ -194,5 +148,70 @@ Page({
       }
     })
 
+  },
+  handleSaveImage(e) {
+    const {
+      id
+    } = e.currentTarget.dataset
+    const saveFileToPhotosAlbum = () => {
+      const info = this.data.tasks.find(v => v.id === id);
+      if (info) {
+        wx.downloadFile({
+          url: info.images[0],
+          success: (resp) => {
+            wx.saveImageToPhotosAlbum({
+              filePath: resp.tempFilePath,
+              success: () => {
+                wx.showToast({
+                  title: '保存成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+              }
+            })
+          }
+        })
+      }
+    }
+    wx.getSetting({
+      success: (setting) => {
+        if (!setting.authSetting['scope.writePhotosAlbum']) {
+          wx.authorize({
+            scope: 'scope.writePhotosAlbum',
+            success: () => {
+              saveFileToPhotosAlbum()
+            }
+          })
+        } else {
+          saveFileToPhotosAlbum()
+        }
+      }
+    })
+  },
+  handleGetMoreList() {
+    if (this.data.pageNum * this.data.pageSize === this.data.tasks.length) {
+      this.setData({
+        pageNum: this.data.pageNum + 1
+      });
+      setTimeout(() => {
+        this.getFetchList();
+      }, 0);
+    }
+  },
+  handleShowMaskZoomIn(e) {
+    const {
+      uri
+    } = e.currentTarget.dataset
+    if (uri) {
+      this.setData({
+        showMask: true,
+        maskUri: uri,
+      })
+    }
+  },
+  handleCloseMask() {
+    this.setData({
+      showMask: false
+    })
   }
 })
