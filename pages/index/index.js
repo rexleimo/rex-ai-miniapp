@@ -32,7 +32,7 @@ Page({
     const than = this
     wx.request({
       url: `${APIURI}category`,
-      success: function (resp) {
+      success: resp => {
         const {
           data
         } = resp;
@@ -43,22 +43,7 @@ Page({
           types: list
         })
         const shift = list[0];
-        wx.request({
-          url: `${APIURI}category?pid=${shift.id}`,
-          success: function (resp) {
-            const {
-              data
-            } = resp;
-            const {
-              data: list
-            } = data;
-            than.setData({
-              styles: list
-            })
-            const shift = list[0];
-            than.getAllAttrs(shift.id);
-          }
-        })
+        this.getAllStyles(shift?.id);
       }
     })
 
@@ -78,6 +63,24 @@ Page({
           }
         })
       },
+    })
+  },
+  getAllStyles(cid) {
+    wx.request({
+      url: `${APIURI}category?pid=${cid}`,
+      success: resp => {
+        const {
+          data
+        } = resp;
+        const {
+          data: list
+        } = data;
+        this.setData({
+          styles: list
+        })
+        const shift = list[0];
+        this.getAllAttrs(shift.id);
+      }
     })
   },
   getAllAttrs(cid) {
@@ -155,6 +158,10 @@ Page({
     this.setData({
       [cloumname]: idx
     })
+    if (cloumname === "typeIdx") {
+      const cur = this.data.types[idx];
+      this.getAllStyles(cur.id);
+    }
     if (cloumname === "styleIdx") {
       this.getAllAttrs(this.data.styles[idx].id)
     }

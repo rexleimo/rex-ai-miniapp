@@ -10,34 +10,27 @@
     </view>
 
     <view class="container">
-
       <view class="h1">
         描述词
       </view>
       <l-textarea maxlength="-1" indicator="{{false}}" auto-height="{{true}}" placeholder="描述你想画什么,包括画面里面都有什么内容。" model:value="{{prompt}}">
       </l-textarea>
-
       <view class="h1">
         不出现的内容
       </view>
       <l-textarea maxlength="-1" indicator="{{false}}" auto-height="{{true}}" placeholder="描述你想什么内容不出现画面里面。" model:value="{{negative_prompt}}"></l-textarea>
-
       <view class="h1">
         设计行业：
       </view>
-
       <scroll-view scroll-x="{{true}}">
-        <l-button size="mini" wx:for="{{types}}" wx:key="index" plain="{{index === typeIdx ? false: true}}" data-cloumname="typeIdx" bind:tap="handleChangeTap">{{item.name}}</l-button>
+        <l-button size="mini" wx:for="{{types}}" wx:key="index" plain="{{index === typeIdx ? false: true}}" data-cloumname="typeIdx" data-idx="{{index}}" bind:tap="handleChangeTap">{{item.name}}</l-button>
       </scroll-view>
-
       <view class="h1">
         目标：
       </view>
-
       <scroll-view scroll-x="{{true}}">
         <l-button size="mini" wx:for="{{styles}}" wx:key="index" plain="{{index === styleIdx ? false: true}}" data-idx="{{index}}" data-cloumname="styleIdx" bind:tap="handleChangeTap">{{item.name}}</l-button>
       </scroll-view>
-
       <view wx:for="{{attrs}}" wx:key="index">
         <view class="h1">
           {{item.name}}:
@@ -47,7 +40,6 @@
           </l-button>
         </view>
       </view>
-
       <view wx:if="{{styles[styleIdx].is_size == false}}">
         <view class="h1">
           画面比例：
