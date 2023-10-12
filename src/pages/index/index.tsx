@@ -20,10 +20,12 @@ function Index() {
 
   const handleChangeTypeIdx = (idx) => {
     setTypeIdx(idx);
+    getAllStyles(types[idx].id);
   }
 
   const handleStylesIdx = (idx) => {
     setStyleIdx(idx);
+    getAllAttrs(styles[idx].id);
   }
 
   // changeAttrs
