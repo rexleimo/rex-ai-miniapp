@@ -50,7 +50,6 @@ function Index() {
   const handleChangeAttrIdx = (name: string, idx: number) => {
     attrIdx.set(name, idx);
     setAttrIdx(new Map(attrIdx));
-
   }
 
   const getAllStyles = async (cid: string) => {
