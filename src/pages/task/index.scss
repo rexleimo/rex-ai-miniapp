@@ -1,0 +1,22 @@
+.card {
+    background-color: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14);
+    break-inside: auto;
+    margin-bottom: 15px;
+    break-inside: avoid;
+}
+
+.waterfall {
+    column-count: 2;
+    column-gap: 15px;
+}
+
+.more-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    margin-top: 15px;
+}

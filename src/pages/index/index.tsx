@@ -1,11 +1,17 @@
 import React, { useState } from 'react'
-import { ScrollView, View } from '@tarojs/components'
-import { Button, TextArea } from "@nutui/nutui-react-taro"
-import { useLoad } from '@tarojs/taro'
+import { ScrollView, View, Text } from '@tarojs/components'
+import { Button, Grid, TextArea } from "@nutui/nutui-react-taro"
+import Taro, { useLoad } from '@tarojs/taro'
+import clsx from 'clsx'
 import './index.scss'
 import request from '../../utils/request'
 
 function Index() {
+
+  // state prompt and negative_prompt
+  const [prompt, setPrompt] = useState('');
+  const [negative_prompt, setNegativePrompt] = useState('');
+
   const [typeIdx, setTypeIdx] = useState(0);
   const [types, setTypes] = useState<any[]>([]);
 
@@ -17,6 +23,18 @@ function Index() {
   const [attrIdx, setAttrIdx] = useState(new Map());
   const [attrs, setAttrs] = useState<any[]>([]);
 
+  const [huamianIdx, setHuamianIdx] = useState(-1);
+
+  const huamian = [{
+    value: 0,
+    name: "1:1"
+  }, {
+    value: 1,
+    name: "6:9"
+  }, {
+    value: 2,
+    name: "9:6"
+  }];
 
   const handleChangeTypeIdx = (idx) => {
     setTypeIdx(idx);
@@ -55,10 +73,57 @@ function Index() {
     setAttrs(list)
   }
 
+  const getCurType = () => {
+    return types[typeIdx];
+  }
+
+  const getCurStyle = () => {
+    return styles[styleIdx];
+  }
+
+  const getCurAttr = (name) => {
+    return attrs.find(v => v.name === name);
+  }
+
+  const handleRenderImage = async () => {
+
+    let promptBody = "";
+    promptBody += `${getCurType().en_name}`;
+    promptBody += ` ${getCurStyle().en_name}`;
+    for (const key of Object.keys(attrIdx)) {
+      const cur = getCurAttr(key);
+      const value = cur.values[attrIdx.get(key)];
+      promptBody += ` ${cur.en_name} ${value}`;
+    }
+
+    const resp = await request(`sd/text2img?cid=${getCurStyle().id}`, { method: "POST", data: { prompt, negative_prompt } });
+    const { error } = resp;
+
+    if (error) {
+      Taro.showToast({
+        title: "生成失败",
+        icon: "error",
+        duration: 2000
+      })
+    } else {
+      Taro.showToast({
+        title: '创建任务成功，请到任务列表查询进度',
+        icon: "success",
+        duration: 2000
+      })
+    }
+
+  }
+
   useLoad(async () => {
     const resp = await request("category");
     setTypes(resp.data);
     getAllStyles(resp.data[0].id);
+
+    const { code } = await Taro.login();
+    const { data } = await request(`miniapp/open_id?code=${code}`);
+
+    Taro.setStorageSync("token", data);
   })
 
   return (
@@ -66,12 +131,12 @@ function Index() {
       <View className="lable">
         说出你想绘画的内容
       </View>
-      <TextArea rows={2} className='textarea' />
+      <TextArea rows={2} className='textarea' value={prompt} onChange={e => setPrompt(e)} />
 
       <View className="lable">
         画面中不想出现的内容
       </View>
-      <TextArea rows={2} className='textarea' />
+      <TextArea rows={2} className='textarea' value={negative_prompt} onChange={e => setNegativePrompt(e)} />
 
       <View className="lable">
         设计行业
@@ -79,7 +144,7 @@ function Index() {
       <ScrollView className='scroll-x' scrollX={true} enableFlex={true}>
         {
           types.map((t, idx) => (
-            <Button key={t.id} size='small' shape="square" type='primary' fill={idx === typeIdx ? 'solid' : 'outline'} onClick={() => handleChangeTypeIdx(idx)}>
+            <Button className='btn' key={t.id} size='small' shape="square" type='primary' fill={idx === typeIdx ? 'solid' : 'outline'} onClick={() => handleChangeTypeIdx(idx)}>
               {t.name}
             </Button>
           ))
@@ -92,7 +157,7 @@ function Index() {
       <ScrollView className='scroll-x' scrollX={true} enableFlex={true}>
         {
           styles.map((t, idx) => (
-            <Button key={t.id} size='small' shape="square" type='primary' fill={idx === styleIdx ? 'solid' : 'outline'} onClick={() => handleStylesIdx(idx)}>
+            <Button className='btn' key={t.id} size='small' shape="square" type='primary' fill={idx === styleIdx ? 'solid' : 'outline'} onClick={() => handleStylesIdx(idx)}>
               {t.name}
             </Button>
           ))
@@ -109,7 +174,9 @@ function Index() {
               {
                 a.values.map((t, idx) => {
                   return (
-                    <Button key={t.id}
+                    <Button
+                      className='btn'
+                      key={t.id}
                       size='small'
                       shape="square"
                       type='primary'
@@ -124,8 +191,27 @@ function Index() {
           </>
         ))
       }
+      <View className="lable">
+        画面尺寸
+      </View>
 
-      <Button size="normal" shape="square" type='primary' block>立即渲染</Button>
+      <Grid className='grid' columns={3} gap={5}>
+        {huamian.map((v, idx) => (
+          <Grid.Item className={clsx('grid-item', {
+            'hm-last-child': idx === huamian.length - 1,
+          })} onClick={() => { setHuamianIdx(idx) }}>
+            <View className={clsx('hm', {
+              'hm-select': idx === huamianIdx,
+            })}>
+              <Text>{v.name}</Text>
+            </View>
+          </Grid.Item>
+        ))}
+      </Grid>
+
+      <View className='mt'>
+        <Button size="normal" shape="square" type='primary' block onClick={handleRenderImage}>立即渲染</Button>
+      </View>
 
     </View>
   )
