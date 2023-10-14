@@ -19,11 +19,11 @@ function TaskList(props: TaskListProps) {
         const task = tasks.find(item => item.id === id)
         // if task set CurUri
         if (task) {
-            handleToggleShow(task.images[0]);
+            handleToggleShow(task.images[0], id);
         }
     }
 
-    
+
 
     return (
         <Row gutter="5">

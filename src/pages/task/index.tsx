@@ -20,10 +20,12 @@ function Index() {
 
   const [visible, setVisible] = useState(false);
   const [curUri, setCurUri] = useState('');
+  const [curId, setCurId] = useState('');
 
-  const handleToggleShow = useCallback((uri: string) => {
+  const handleToggleShow = useCallback((uri: string, id: string) => {
     setCurUri(uri)
     setVisible(true);
+    setCurId(id)
   }, []);
 
   const onClose = () => {
@@ -101,42 +103,59 @@ function Index() {
 
   const handleSaveImage = () => {
     const saveFileToPhotosAlbum = () => {
-        if (curUri) {
-            Taro.downloadFile({
-                url: curUri,
-                success: (res) => {
-                    Taro.saveImageToPhotosAlbum({
-                        filePath: res.tempFilePath,
-                        success: () => {
-                            Taro.showToast({
-                                title: '保存成功',
-                                icon: 'success',
-                                duration: 2000
-                            })
-                        }
-                    })
-                }
+      if (curUri) {
+        Taro.downloadFile({
+          url: curUri,
+          success: (res) => {
+            Taro.saveImageToPhotosAlbum({
+              filePath: res.tempFilePath,
+              success: () => {
+                Taro.showToast({
+                  title: '保存成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+              }
             })
-        }
+          }
+        })
+      }
     }
 
     Taro.getSetting({
-        success(setting) {
-            if (!setting.authSetting['scope.writePhotosAlbum']) {
-                Taro.authorize({
-                    scope: 'scope.writePhotosAlbum',
-                    success: () => {
-                        saveFileToPhotosAlbum()
-                    }
-                })
-            } else {
-                saveFileToPhotosAlbum()
+      success(setting) {
+        if (!setting.authSetting['scope.writePhotosAlbum']) {
+          Taro.authorize({
+            scope: 'scope.writePhotosAlbum',
+            success: () => {
+              saveFileToPhotosAlbum()
             }
-        },
+          })
+        } else {
+          saveFileToPhotosAlbum()
+        }
+      },
     })
 
-}
+  }
 
+  const handleDelete = () => {
+    request(`task/${curId}`, { method: 'DELETE' })
+      .then(() => {
+        const newTasks = tasks.filter(task => task.id !== curId);
+        setTasks(newTasks);
+        setCurUri('')
+        setCurId('')
+        setVisible(false)
+      })
+      .catch(() => {
+        Taro.showToast({
+          title: '删除失败',
+          icon: 'none',
+          duration: 2000
+        })
+      })
+  }
 
 
   return (
@@ -169,7 +188,23 @@ function Index() {
             <Image mode="aspectFit" src={curUri} />
           </View>
           <View className='card-body'>
-            <Button shape='round' size='small' className='btn' fill='solid' type='primary' onClick={handleSaveImage}>下载图片</Button>
+            <Button
+              shape='round'
+              size='small'
+              className='btn'
+              fill='solid'
+              type='primary'
+              onClick={handleSaveImage}>
+              下载图片
+            </Button>
+            <Button
+              shape='round'
+              size='small'
+              className='btn ml'
+              type="warning"
+              onClick={handleDelete}>
+              删除
+            </Button>
           </View>
         </View>
       </Overlay>
