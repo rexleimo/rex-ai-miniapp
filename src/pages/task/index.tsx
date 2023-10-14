@@ -8,12 +8,13 @@ import request from '../../utils/request';
 
 import './index.scss';
 import TaskList from './TaskList';
+import Taro from '@tarojs/taro';
 
 function Index() {
 
   const [tasks, setTasks] = useState<any[]>([]);
   const taskRef = useRef<any[]>([]);
-  const [pageSize] = useState(10);
+  const [pageSize] = useState(12);
   const [pageNum, setPageNum] = useState(-1);
   const [noMor, setNoMor] = useState(false);
 
@@ -31,6 +32,7 @@ function Index() {
 
   useEffect(() => {
     if (pageNum === -1) {
+      setTasks([]);
       return
     }
     getFetchList();
@@ -97,6 +99,44 @@ function Index() {
     }
   }
 
+  const handleSaveImage = () => {
+    const saveFileToPhotosAlbum = () => {
+        if (curUri) {
+            Taro.downloadFile({
+                url: curUri,
+                success: (res) => {
+                    Taro.saveImageToPhotosAlbum({
+                        filePath: res.tempFilePath,
+                        success: () => {
+                            Taro.showToast({
+                                title: '保存成功',
+                                icon: 'success',
+                                duration: 2000
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    }
+
+    Taro.getSetting({
+        success(setting) {
+            if (!setting.authSetting['scope.writePhotosAlbum']) {
+                Taro.authorize({
+                    scope: 'scope.writePhotosAlbum',
+                    success: () => {
+                        saveFileToPhotosAlbum()
+                    }
+                })
+            } else {
+                saveFileToPhotosAlbum()
+            }
+        },
+    })
+
+}
+
 
 
   return (
@@ -121,11 +161,15 @@ function Index() {
       <Overlay
         visible={visible}
         style={{ '--nutui-overlay-zIndex': 2020, } as any}
+        lockScroll
         onClick={onClose}
       >
         <View className="flex-center flex-column">
           <View className='overlay-img'>
             <Image mode="aspectFit" src={curUri} />
+          </View>
+          <View className='card-body'>
+            <Button shape='round' size='small' className='btn' fill='solid' type='primary' onClick={handleSaveImage}>下载图片</Button>
           </View>
         </View>
       </Overlay>

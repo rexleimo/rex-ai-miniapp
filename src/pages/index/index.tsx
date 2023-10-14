@@ -20,7 +20,7 @@ function Index() {
   const [styles, setStyles] = useState<any[]>([]);
 
   // attrs and attrIdx
-  const [attrIdx, setAttrIdx] = useState(new Map());
+  const [attrIdx, setAttrIdx] = useState<Map<string, number[]>>(new Map());
   const [attrs, setAttrs] = useState<any[]>([]);
 
   const [huamianIdx, setHuamianIdx] = useState(-1);
@@ -48,7 +48,15 @@ function Index() {
 
   // changeAttrs
   const handleChangeAttrIdx = (name: string, idx: number) => {
-    attrIdx.set(name, idx);
+    const attrsSet = attrIdx.get(name) || [];
+    // if idx in set add esle del
+    if (attrsSet.includes(idx)) {
+      attrsSet.splice(attrsSet.indexOf(idx), 1);
+    }
+    else {
+      attrsSet.push(idx);
+    }
+    attrIdx.set(name, attrsSet);
     setAttrIdx(new Map(attrIdx));
   }
 
@@ -88,14 +96,30 @@ function Index() {
 
     let promptBody = "";
     promptBody += `${getCurType().en_name}`;
-    promptBody += ` ${getCurStyle().en_name}`;
-    for (const key of Object.keys(attrIdx)) {
+    promptBody += ` ,${getCurStyle().en_name}`;
+    // foreach the attrs
+    for (const key of attrIdx.keys()) {
       const cur = getCurAttr(key);
-      const value = cur.values[attrIdx.get(key)];
-      promptBody += ` ${cur.en_name} ${value}`;
+      promptBody += `,(${cur.en_name} `;
+      const attrSet = attrIdx.get(key) || [];
+      const attrLen = attrIdx.get(key)?.length || 0;
+      attrSet?.forEach((aIdx, forIdx) => {
+        const value = cur.values[aIdx];
+        if (forIdx === attrLen - 1) {
+          promptBody += `${value.en_name}`
+        } else {
+          promptBody += `${value.en_name} and `
+        }
+      })
+      promptBody += ")";
     }
 
-    const resp = await request(`sd/text2img?cid=${getCurStyle().id}`, { method: "POST", data: { prompt, negative_prompt } });
+    const resp = await request(`sd/text2img?cid=${getCurStyle().id}`, {
+      method: "POST", data: {
+        prompt: promptBody,
+        negative_prompt
+      }
+    });
     const { error } = resp;
 
     if (error) {
@@ -179,7 +203,7 @@ function Index() {
                       size='small'
                       shape="square"
                       type='primary'
-                      fill={idx === attrIdx.get(a.name) ? 'solid' : 'outline'}
+                      fill={attrIdx.get(a.name)?.includes(idx) ? 'solid' : 'outline'}
                       onClick={() => handleChangeAttrIdx(a.name, idx)}>
                       {t.name}
                     </Button>

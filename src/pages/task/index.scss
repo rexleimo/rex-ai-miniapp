@@ -1,10 +1,6 @@
 .card {
+    margin-bottom: 5px;
     background-color: #fff;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14);
-    // break-inside: auto;
-    padding: 10px;
-    width: 40vw;
-    margin-bottom: 10px;
 }
 
 .card-body {
@@ -25,12 +21,7 @@
 
 .img {
     width: 100%;
-}
-
-.card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    height: 115px;
 }
 
 .flex-center {
@@ -51,5 +42,7 @@
     image {
         width: 100% !important;
         height: 75vh !important;
+        border-radius: 8px;
+        background-color: #fff;
     }
 }
