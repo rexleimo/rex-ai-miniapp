@@ -39,11 +39,13 @@ function Index() {
   const handleChangeTypeIdx = (idx) => {
     setTypeIdx(idx);
     getAllStyles(types[idx].id);
+    setAttrIdx(new Map());
   }
 
   const handleStylesIdx = (idx) => {
     setStyleIdx(idx);
     getAllAttrs(styles[idx].id);
+    setAttrIdx(new Map())
   }
 
   // changeAttrs
@@ -233,7 +235,9 @@ function Index() {
       </Grid>
 
       <View className='mt'>
-        <Button size="normal" shape="square" type='primary' block onClick={handleRenderImage}>立即渲染</Button>
+        <Button size="normal" shape="square" type='primary' block onClick={handleRenderImage}>
+          立即渲染(消耗-1积分)
+        </Button>
       </View>
 
     </View>

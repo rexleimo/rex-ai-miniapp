@@ -15,12 +15,19 @@ export default defineAppConfig({
         "text": "任务列表",
         "iconPath": "assets/images/tabbar/task.png",
         "selectedIconPath": "assets/images/tabbar/taskselect.png"
+      },
+      {
+        "pagePath": "pages/user/index",
+        "text": "福利",
+        "iconPath": "assets/images/tabbar/task.png",
+        "selectedIconPath": "assets/images/tabbar/taskselect.png"
       }
     ]
   },
   pages: [
     'pages/index/index',
-    'pages/task/index'
+    'pages/task/index',
+    "pages/user/index",
   ],
   window: {
     backgroundTextStyle: 'light',
