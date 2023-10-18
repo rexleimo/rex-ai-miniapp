@@ -5,6 +5,12 @@ export default defineAppConfig({
     backgroundColor: "#FFF",
     list: [
       {
+        pagePath: "pages/home/index",
+        text: "Home",
+        iconPath: "assets/images/tabbar/draw.png",
+        selectedIconPath: "assets/images/tabbar/drawselect.png",
+      },
+      {
         pagePath: "pages/index/index",
         text: "渲染",
         iconPath: "assets/images/tabbar/draw.png",
@@ -29,6 +35,7 @@ export default defineAppConfig({
     "pages/index/index",
     "pages/task/index",
     "pages/user/index",
+    "pages/qrcode/index"
   ],
   window: {
     backgroundTextStyle: "light",

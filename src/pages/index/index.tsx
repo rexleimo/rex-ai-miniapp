@@ -143,12 +143,7 @@ function Index() {
   useLoad(async () => {
     const resp = await request("category");
     setTypes(resp.data);
-    getAllStyles(resp.data[0].id);
-
-    const { code } = await Taro.login();
-    const { data } = await request(`miniapp/open_id?code=${code}`);
-
-    Taro.setStorageSync("token", data);
+    getAllStyles(resp.data[0].id); 
   })
 
   return (
