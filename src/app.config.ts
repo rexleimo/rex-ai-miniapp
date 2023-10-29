@@ -35,7 +35,8 @@ export default defineAppConfig({
     "pages/index/index",
     "pages/task/index",
     "pages/user/index",
-    "pages/qrcode/index"
+    "pages/qrcode/index",
+    "pages/avatar/index"
   ],
   window: {
     backgroundTextStyle: "light",

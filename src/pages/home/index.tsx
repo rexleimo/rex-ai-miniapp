@@ -5,11 +5,14 @@ import request from "../../utils/request";
 
 function Index() {
 
-    const onNavigateToQrcode = () => {
+    const onNavigateToQrcode = (url) => {
+        console.log(url)
         Taro.navigateTo({
-            url: '/pages/qrcode/index',
+            url,
         })
     }
+
+
 
     useLoad(async () => {
         const { code } = await Taro.login();
@@ -22,11 +25,11 @@ function Index() {
         <>
             <Row gutter="10">
 
-                <Col span="12" onClick={onNavigateToQrcode}>
+                <Col span="12" onClick={() => onNavigateToQrcode('/pages/qrcode/index')}>
                     艺术二维码
                 </Col>
 
-                <Col span="12">
+                <Col span="12" onClick={() => onNavigateToQrcode('/pages/avatar/index')}>
                     个性头像
                 </Col>
 

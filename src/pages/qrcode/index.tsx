@@ -1,35 +1,56 @@
-import { Button, Overlay } from "@nutui/nutui-react-taro";
+import { Button, Overlay, Picker } from "@nutui/nutui-react-taro";
 import { Image, View } from "@tarojs/components";
-import Taro from "@tarojs/taro";
+import Taro, { useLoad } from "@tarojs/taro";
 import React, { useState } from "react";
-import { ReadFile } from "../../utils/taro/read-file";
 import request from "../../utils/request";
 import './index.scss'
 import { Ask2 } from '@nutui/icons-react-taro'
-import QrcodeHelpImage from '../../assets/qrcode_help.png'
+import QrcodeHelpImage from '../../assets/qrcode_help.png';
+import { TaroUtilsChooseImage } from "../../utils/taro/chooseImage";
 
 function QrcodePage() {
     const [qrcode, setQrcode] = useState('');
     const [preview, setPreview] = useState('');
-    const [openHelp, setOpenHelp] = useState(false)
+    const [openHelp, setOpenHelp] = useState(false);
+
+    const [visible, setVisible] = useState(false);
+    const [options, setOptions] = useState([]);
 
     const handleChooseQrcode = async () => {
-        const resp = await Taro.chooseImage({
-            count: 1,
-            sizeType: ['original', 'compressed'],   //所选的图片的尺寸
-            sourceType: ['album', 'camera'],        //选择图片的来源
-        })
-
-        const qrcodeBase64 = await ReadFile(resp.tempFilePaths[0])
-        setPreview(resp.tempFilePaths[0]);
+        const [qrcodeBase64, tempFilePaths] = await TaroUtilsChooseImage();
+        setPreview(tempFilePaths);
         setQrcode(qrcodeBase64 as string)
     }
 
-    const handleRender = async () => {
-        request('sd/qrcode', {
+    const showVisible = () => {
+        setVisible(true);
+    }
+
+    const handleSwitchToTask = () => {
+        Taro.switchTab({
+            url: '/pages/task/index'
+        })
+    }
+
+    const handleOpenHelp = () => {
+        setOpenHelp(true)
+    }
+
+    useLoad(async () => {
+        const resp = await request('styles/list');
+        if (resp.styles) {
+            setOptions(resp.styles.map((item) => ({ value: item.id, text: item.name })));
+        }
+    })
+
+    const handleConfirmPicker = (list, values) => {
+        // console.log(list, values)
+        const value = (values as Array<any>).shift();
+        request('sd/avatar', {
             method: "POST",
             data: {
-                qrcode: qrcode
+                qrcode: qrcode,
+                style_id: value
             }
         }).then(() => {
             Taro.showToast({
@@ -44,22 +65,13 @@ function QrcodePage() {
         })
     }
 
-    const handleSwitchToTask = () => {
-        Taro.switchTab({
-            url: '/pages/task/index'
-        })
-    }
-
-    const handleOpenHelp = () => {
-        setOpenHelp(true)
-    }
 
     return (
         <>
             <View className="page container">
                 <Image className="mb max-image" mode="aspectFit" src={preview} />
                 <Button className="mb" type="info" shape="square" block onClick={handleChooseQrcode}>选择图片</Button>
-                <Button className="mb" type="success" shape="square" block onClick={handleRender}>渲染(积分-1)</Button>
+                <Button className="mb" type="success" shape="square" block onClick={showVisible}>渲染(积分-1)</Button>
                 <Button type="primary" shape="square" block onClick={handleSwitchToTask}>去任务中心</Button>
                 <View className="help-btn" onClick={handleOpenHelp}>
                     <Ask2 />
@@ -74,6 +86,13 @@ function QrcodePage() {
                     <Image mode="aspectFill" src={QrcodeHelpImage} />
                 </View>
             </Overlay>
+            <Picker
+                visible={visible}
+                options={options}
+                onConfirm={handleConfirmPicker}
+                onClose={() => setVisible(false)}
+            // onChange={changePicker}
+            />
         </>
     )
 }
