@@ -46,7 +46,7 @@ function QrcodePage() {
     const handleConfirmPicker = (list, values) => {
         // console.log(list, values)
         const value = (values as Array<any>).shift();
-        request('sd/avatar', {
+        request('sd/qrcode', {
             method: "POST",
             data: {
                 qrcode: qrcode,

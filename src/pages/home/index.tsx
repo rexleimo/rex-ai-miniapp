@@ -2,6 +2,10 @@ import React from "react";
 import { Row, Col } from '@nutui/nutui-react-taro'
 import Taro, { useLoad } from "@tarojs/taro";
 import request from "../../utils/request";
+import { Image, View } from '@tarojs/components'
+
+import OnePng from '../../assets/1.png'
+import TwoPng from '../../assets/2.png'
 
 function Index() {
 
@@ -26,15 +30,30 @@ function Index() {
             <Row gutter="10">
 
                 <Col span="12" onClick={() => onNavigateToQrcode('/pages/qrcode/index')}>
-                    艺术二维码
+                    <View style={{ width: '100%', height: '140px' }} className="max-image">
+                        <Image src={OnePng} />
+                    </View>
+                    <View style={{ textAlign: 'center' }}>
+                        艺术二维码
+                    </View>
                 </Col>
 
                 <Col span="12" onClick={() => onNavigateToQrcode('/pages/avatar/index')}>
-                    个性头像
+                    <View style={{ width: '100%', height: '140px' }} className="max-image">
+                        <Image src={TwoPng} />
+                    </View>
+                    <View style={{ textAlign: 'center' }}>
+                        个性头像
+                    </View>
                 </Col>
 
                 <Col span="12">
-                    隐藏文字
+                    <View style={{ width: '100%', height: '140px' }} className="max-image">
+                        <Image src={OnePng} />
+                    </View>
+                    <View style={{ textAlign: 'center' }}>
+                        隐藏文字
+                    </View>
                 </Col>
             </Row>
         </>
