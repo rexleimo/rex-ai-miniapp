@@ -47,7 +47,7 @@ function Index() {
                     </View>
                 </Col>
 
-                <Col span="12">
+                <Col span="12" onClick={() => onNavigateToQrcode('/pages/lighting/index')}>
                     <View style={{ width: '100%', height: '140px' }} className="max-image">
                         <Image src={OnePng} />
                     </View>

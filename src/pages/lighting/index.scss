@@ -1,0 +1,32 @@
+.max-image {
+    width: 100%;
+}
+
+.help-btn {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    z-index: 1000;
+    background-color: #fff;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.help-btn:hover {
+    background-color: #f1f1f1;
+}
+
+.help-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
