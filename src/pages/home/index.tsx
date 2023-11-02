@@ -6,6 +6,7 @@ import { Image, View } from '@tarojs/components'
 
 import OnePng from '../../assets/1.png'
 import TwoPng from '../../assets/2.png'
+import ThreePng from '../../assets/3.png'
 
 function Index() {
 
@@ -49,7 +50,7 @@ function Index() {
 
                 <Col span="12" onClick={() => onNavigateToQrcode('/pages/lighting/index')}>
                     <View style={{ width: '100%', height: '140px' }} className="max-image">
-                        <Image src={OnePng} />
+                        <Image src={ThreePng} />
                     </View>
                     <View style={{ textAlign: 'center' }}>
                         隐藏文字
