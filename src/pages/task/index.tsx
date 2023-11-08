@@ -1,4 +1,4 @@
-import { Image, Button, Overlay } from '@nutui/nutui-react-taro'
+import { Image, Button, Overlay, Pagination } from '@nutui/nutui-react-taro'
 import { View } from '@tarojs/components'
 import { useDidHide, useDidShow } from '@tarojs/taro';
 
@@ -13,10 +13,9 @@ import Taro from '@tarojs/taro';
 function Index() {
 
   const [tasks, setTasks] = useState<any[]>([]);
-  const taskRef = useRef<any[]>([]);
   const [pageSize] = useState(12);
   const [pageNum, setPageNum] = useState(-1);
-  const [noMor, setNoMor] = useState(false);
+  const [total, setTotal] = useState(0);
 
   const [visible, setVisible] = useState(false);
   const [curUri, setCurUri] = useState('');
@@ -42,9 +41,6 @@ function Index() {
 
   useDidShow(async () => {
     setPageNum(1);
-    setTimeout(() => {
-      getUpdateTaskInfo()
-    }, 100);
   })
 
   useDidHide(() => {
@@ -54,51 +50,20 @@ function Index() {
 
   const getFetchList = async () => {
     const resp = await request(`task?pageSize=${pageSize}&page=${pageNum}`);
-    const { data: tasks } = resp;
+    const { data: tasks, count } = resp;
     if (!tasks) return
     tasks.forEach((v: any) => {
       if (v.images) {
         v.images = v.images?.map((img) => `${API_URL}${img}`)
       }
     })
-    setTasks((pre) => {
-      const result = pre.concat(tasks);
-      taskRef.current = result;
-      return result
-    });
-    setNoMor(!(pageSize === tasks.length))
+    setTotal(count);
+    setTasks(tasks);
   }
 
-  const getUpdateTaskInfo = async () => {
-    const tasks = taskRef.current;
-    const shouldIds = tasks.filter(v => v.status === 0).map(v => v.id);
-    const resp = await request('task/ids', { method: 'POST', data: { task_ids: shouldIds } });
-    const { data } = resp;
-    if (data) {
-      for (const v of data) {
-        const cur = v as any
-        const idx = tasks.findIndex(t => t.id === cur.id);
-        if (idx > -1) {
-          if (cur.status === 200) {
-            cur.images = cur.images?.map((img) => `${API_URL}${img}`)
-          }
-          tasks[idx] = cur;
-        }
-      }
-      setTasks([...tasks]);
-      const statusIsNormol = data.filter(v => v.status === 0);
-      if (statusIsNormol.length > 0) {
-        setTimeout(() => {
-          getUpdateTaskInfo();
-        }, 5000);
-      }
-    }
-  }
 
-  const handleMoreFetch = () => {
-    if (pageNum * pageSize === tasks.length) {
-      setPageNum(pageNum + 1);
-    }
+  const handleMoreFetch = (v: number) => {
+    setPageNum(v);
   }
 
   const handleSaveImage = () => {
@@ -161,21 +126,20 @@ function Index() {
   return (
     <>
       <View className='nutui-react-demo container page'>
-        <TaskList tasks={tasks} handleToggleShow={handleToggleShow} />
-        <View className='more-container'>
-          {
-            !noMor && (
-              <Button
-                size='small'
-                shape='square'
-                fill='outline'
-                className='btn'
-                onClick={handleMoreFetch}>
-                加载更多
-              </Button>
-            )
-          }
-        </View>
+        {
+          tasks.length > 0 && (
+            <>
+              <TaskList tasks={tasks} handleToggleShow={handleToggleShow} />
+              <Pagination
+                value={pageNum}
+                total={total}
+                pageSize={10}
+                mode="simple"
+                onChange={handleMoreFetch}
+              />
+            </>
+          )
+        }
       </View>
       <Overlay
         visible={visible}

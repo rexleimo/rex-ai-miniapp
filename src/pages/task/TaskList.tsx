@@ -1,8 +1,7 @@
 import { View, Image } from '@tarojs/components'
 import NoData from '../../assets/no_data.png'
-import { Button, Col, Row } from '@nutui/nutui-react-taro'
+import { Col, Row } from '@nutui/nutui-react-taro'
 import React from 'react'
-import Taro from '@tarojs/taro'
 import './index.scss';
 
 type TaskListProps = {

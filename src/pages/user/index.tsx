@@ -18,7 +18,11 @@ function Index() {
 
     const handleCheckInClick = async () => {
         try {
-            const resp = await request('user/check_in')
+            await request('user/check_in')
+            setUser((pre) => ({
+                ...pre,
+                bonus: pre.bonus + 50
+            }))
         } catch (e) {
             Taro.showToast({
                 title: '今天已认领',
@@ -42,7 +46,8 @@ function Index() {
                     setUser({
                         ...user,
                         name: res.userInfo.nickName,
-                        avatar: res.userInfo.avatarUrl
+                        avatar: res.userInfo.avatarUrl,
+                        bonus: user.bonus + 100
                     })
                 }).catch((err) => {
                     const { error_code } = err;
